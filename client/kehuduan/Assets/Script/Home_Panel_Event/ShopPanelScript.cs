@@ -119,5 +119,6 @@ public class ShopPanelScript : MonoBehaviour {
 	{
 		yield return new WaitForSeconds(10.0f);
 		CustomSocket.getInstance().sendMsg(new PaySuccessRequest(checkingOrder));
+		retryTimes++;
 	}
 }
