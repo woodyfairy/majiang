@@ -33,6 +33,7 @@ public class InitServers {
         StandingsRelationService.getInstance().initSetSession(sessionFactory);
         StandingsAccountRelationService.getInstance().initSetSession(sessionFactory);
         PlayRecordService.getInstance().initSetSession(sessionFactory);
+        PaymentService.getInstance().initSetSession(sessionFactory);
 
         InviteService.getInstance().initSetSession(sessionFactory);
         

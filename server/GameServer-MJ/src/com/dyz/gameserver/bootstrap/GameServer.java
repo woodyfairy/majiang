@@ -14,6 +14,7 @@ import com.dyz.gameserver.msg.response.common.CloseGameResponse;
 import com.dyz.gameserver.net.MinaHostMsgHandler;
 import com.dyz.gameserver.net.MinaMsgHandler;
 import com.dyz.gameserver.net.NetManager;
+import com.dyz.gameserver.net.WebServer.WebServer;
 import com.dyz.myBatis.services.InitServers;
 import com.dyz.persist.util.PrizeProbability;
 
@@ -55,6 +56,8 @@ public class GameServer {
 			logger.info("game server started...");
 			PrizeProbability.initPrizesProbability();
 			logger.info("初始化奖品概率");
+			WebServer.init();
+			logger.info("启动网页服务");
 		} catch (Exception e) {
 			logger.error("服务器启动失败");
 			e.printStackTrace();

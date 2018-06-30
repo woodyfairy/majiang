@@ -64,6 +64,9 @@ namespace AssemblyCSharp
         public ServerCallBackEvent inviteGetRewardResponse; //领取邀请奖励
         public ServerCallBackEvent inviteHistoryResponse; //邀请历史
 
+		public ServerCallBackEvent startPayOrderResponse; //请求订单返回
+		public ServerCallBackEvent paySuccessResponse; //支付成功后验证返回
+
         //private List<ClientResponse> callBackResponseList;
 
         public ServerCallBackEvent hearBeateResponse; //邀请历史
@@ -321,27 +324,40 @@ namespace AssemblyCSharp
 					otherTeleLogin (response);
 				}
 				break;
-                case APIS.INVITE_RESPONSE:
-                    if(null != inviteResponse)
-                    {
-                        inviteResponse(response);
-                    }
-                    break;
-                case APIS.INVITE_GET_REWARD_RESPONSE:
-                    if(null!=inviteGetRewardResponse)
-                    {
-                        inviteGetRewardResponse(response);
-                    }
-                    break;
-                case APIS.INVITE_HISTORY_RESPONSE:
-                    if(null!=inviteHistoryResponse)
-                    {
-                        inviteHistoryResponse(response);
-                    }
-                    break;
+            case APIS.INVITE_RESPONSE:
+                if(null != inviteResponse)
+                {
+                    inviteResponse(response);
+                }
+                break;
+            case APIS.INVITE_GET_REWARD_RESPONSE:
+                if(null!=inviteGetRewardResponse)
+                {
+                    inviteGetRewardResponse(response);
+                }
+                break;
+			case APIS.INVITE_HISTORY_RESPONSE:
+				if (null != inviteHistoryResponse) {
+					inviteHistoryResponse (response);
+				}
+				break;
+			case APIS.PAY_START_ORDER_RESPONSE:
+				if (startPayOrderResponse != null) {
+					startPayOrderResponse (response);
+				}
+                break;
+			case APIS.PAY_SUCCESS_RESPONSE:
+				if (paySuccessResponse != null) {
+					paySuccessResponse (response);
+				}
+				if (response.status == 1) {
+					GlobalDataScript.loginResponseData.account.roomcard = int.Parse(response.message);
+					if (cardChangeNotice != null) {
+						cardChangeNotice (response);
+					}
+				}
+			break;
 			}
-
-
         }
 
 		public void addResponse(ClientResponse response){

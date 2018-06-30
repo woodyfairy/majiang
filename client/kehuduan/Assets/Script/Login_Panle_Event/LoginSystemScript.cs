@@ -81,6 +81,7 @@ public class LoginSystemScript : MonoBehaviour {
 	public void login(){
 		
 		if (!CustomSocket.getInstance ().isConnected) {
+			MyDebug.Log("CustomSocket is NOT Connected!");
 			CustomSocket.getInstance ().Connect ();
 			ChatSocket.getInstance ().Connect();
 			tapCount = 0;
@@ -103,6 +104,7 @@ public class LoginSystemScript : MonoBehaviour {
 	}
 
 	public void doLogin(){
+		MyDebug.Log ("Do Login!!!");
 		GlobalDataScript.getInstance ().wechatOperate.login ();
 	}
 

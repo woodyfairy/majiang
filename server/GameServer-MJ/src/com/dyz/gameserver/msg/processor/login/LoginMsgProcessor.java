@@ -75,8 +75,10 @@ public class LoginMsgProcessor extends MsgProcessor implements INotAuthProcessor
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
-				String content = notice.getContent();
-				gameSession.sendMsg(new HostNoitceResponse(1, content));
+				if(notice != null){
+					String content = notice.getContent();
+					gameSession.sendMsg(new HostNoitceResponse(1, content));
+				}
 			}
 		}else{
 			//如果玩家是掉线的，则直接从缓存(GameServerContext)中取掉线玩家的信息
@@ -147,9 +149,10 @@ public class LoginMsgProcessor extends MsgProcessor implements INotAuthProcessor
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
-				String content = notice.getContent();
-				gameSession.sendMsg(new HostNoitceResponse(1, content));
-				
+				if (notice != null){
+					String content = notice.getContent();
+					gameSession.sendMsg(new HostNoitceResponse(1, content));
+				}
 			}
 		}
 		System.out.println(account.getUuid()+"  :登录游戏" + "," + account.getInvitereward());

@@ -149,4 +149,10 @@ public class ConnectAPI {
 	//远程请求
 	public static int HOST_ROMOTECONTROL_REQUEST = 0x999999;
 	
+	//支付相关
+	public static int PAY_START_ORDER_REQUEST = 0x200001; //开始请求订单
+	public static int PAY_START_ORDER_RESPONSE = 0x200002; //请求订单返回
+	public static int PAY_SAVE_TICKET_REQUEST = 0x200003; //保存ticket
+	public static int PAY_SUCCESS_REQUEST = 0x200004; //支付成功请求验证
+	public static int PAY_SUCCESS_RESPONSE = 0x200005; //支付成功回调
 }

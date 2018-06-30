@@ -1,13 +1,13 @@
-
+﻿
 Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
-Project("{E097FAD1-6243-4DAD-9C02-E9B9EFC3FFC1}") = "Assembly-CSharp", "Assembly-CSharp.csproj", "{09244C11-A49A-2946-1907-9FDD7146432F}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "kehuduan", "Assembly-CSharp.csproj", "{09244C11-A49A-2946-1907-9FDD7146432F}"
 EndProject
-Project("{E097FAD1-6243-4DAD-9C02-E9B9EFC3FFC1}") = "Assembly-CSharp-firstpass", "Assembly-CSharp-firstpass.csproj", "{9BFB203E-160A-9439-FF49-104CD813C73F}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "kehuduan", "Assembly-CSharp-firstpass.csproj", "{9BFB203E-160A-9439-FF49-104CD813C73F}"
 EndProject
-Project("{E097FAD1-6243-4DAD-9C02-E9B9EFC3FFC1}") = "Assembly-CSharp-Editor", "Assembly-CSharp-Editor.csproj", "{8A84BCDF-6161-557F-97BA-1BA6377B43AE}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "kehuduan", "Assembly-CSharp-Editor.csproj", "{8A84BCDF-6161-557F-97BA-1BA6377B43AE}"
 EndProject
-Project("{E097FAD1-6243-4DAD-9C02-E9B9EFC3FFC1}") = "Assembly-CSharp-Editor-firstpass", "Assembly-CSharp-Editor-firstpass.csproj", "{230CD15E-8A09-4FD2-32EF-823ABF567A72}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "kehuduan", "Assembly-CSharp-Editor-firstpass.csproj", "{230CD15E-8A09-4FD2-32EF-823ABF567A72}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

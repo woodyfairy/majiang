@@ -33,6 +33,8 @@ import com.dyz.gameserver.msg.processor.standings.StandingsMsgProcessorSearch;
 import com.dyz.gameserver.msg.processor.startgame.PrepareGameMSGProcessor;
 import com.dyz.gameserver.msg.processor.startpreparegame.StartPrepareGameMsgProcessor;
 import com.dyz.gameserver.msg.processor.ting.TingPaiMsgProcessor;
+//pay
+import com.dyz.gameserver.msg.processor.pay.*;
 
 
 /**
@@ -106,8 +108,12 @@ public enum MsgProcessorRegister {
 	/**领取邀请奖励*/
 	inviteGetReward(ConnectAPI.INVITE_GET_REWARD_REQUEST, new InviteGetRewardMsgProcessor()),
 	/**邀请历史*/
-	inviteHistory(ConnectAPI.INVITE_HISTORY_REQUEST, new InviteHistoryMsgProcessor());
+	inviteHistory(ConnectAPI.INVITE_HISTORY_REQUEST, new InviteHistoryMsgProcessor()),
 	
+	//支付开始请求订单
+	payStartOrder(ConnectAPI.PAY_START_ORDER_REQUEST, new PayStartOrderMsgProcessor()),
+	paySaveTicket(ConnectAPI.PAY_SAVE_TICKET_REQUEST, new PaySaveTicketMsgProcessor()),
+	payPaySuccess(ConnectAPI.PAY_SUCCESS_REQUEST, new PayPaySuccessMsgProcessor());
 	
 	
 	private int msgCode;

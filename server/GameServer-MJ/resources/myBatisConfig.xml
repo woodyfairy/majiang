@@ -23,9 +23,9 @@
             <transactionManager type="JDBC" />
             <dataSource type="POOLED">
                 <property name="driver" value="com.mysql.jdbc.Driver" />
-                <property name="url" value="jdbc:mysql://localhost:3306/roledata?useUnicode=true&amp;characterEncoding=UTF-8" />
+                <property name="url" value="jdbc:mysql://192.168.1.200:3306/roledata?useUnicode=true&amp;characterEncoding=UTF-8" />
                 <property name="username" value="root" />
-                <property name="password" value="1234" />
+                <property name="password" value="19881110" />
             </dataSource>
         </environment>
     </environments>
@@ -45,5 +45,6 @@
         <mapper resource="com/dyz/myBatis/sqlMapper/StandingsAccountRelationMapper.xml"/>
         <mapper resource="com/dyz/myBatis/sqlMapper/PlayRecordMapper.xml"/>
         <mapper resource="com/dyz/myBatis/sqlMapper/InviteMapper.xml"/>
+        <mapper resource="com/dyz/myBatis/sqlMapper/PaymentMapper.xml"/>
     </mappers>
 </configuration>
