@@ -31,25 +31,35 @@ public class Response {
         	boolean success = false;
         	JSONObject json = request.getJson();
         	if (json != null){
-        		if (json.getInteger("result") == 2){
-        			String order = json.getString("order_id");
-        			int price = json.getIntValue("amount");
-        			Payment payment = PaymentService.getInstance().getPayment(order);
-        			if (payment != null && payment.getFinished() == false && payment.getPrice() == price){
-        				int uid = payment.getUid();
-        				int num = payment.getNum();
-        				Account account = AccountService.getInstance().selectByUUid(uid);
-        				account.setRoomcard(account.getRoomcard() + num);
-        				payment.setFinished(true);
-        				if (PaymentService.getInstance().updatePayment(payment) > 0){
-        					if (AccountService.getInstance().updateByPrimaryKeySelective(account) > 0){
-            					success = true;
-            					output.write("HTTP/1.1 200 OK\n".getBytes());
-                                output.write("Content-Type: text/html; charset=UTF-8\n\n".getBytes());
+        		if (json.containsKey("result") && json.getInteger("result") == 2){
+        			if (json.containsKey("orderId") && json.containsKey("amount")){
+        				String order = json.getString("orderId");
+            			int price = json.getIntValue("amount");
+            			Payment payment = PaymentService.getInstance().getPayment(order);
+            			if (payment != null && payment.getFinished() == false && payment.getPrice() == price){
+            				int uid = payment.getUid();
+            				int num = payment.getNum();
+            				Account account = AccountService.getInstance().selectByUUid(uid);
+            				account.setRoomcard(account.getRoomcard() + num);
+            				payment.setFinished(true);
+            				if (PaymentService.getInstance().updatePayment(payment) > 0){
+            					if (AccountService.getInstance().updateByPrimaryKeySelective(account) > 0){
+                					success = true;
+                					output.write("HTTP/1.1 200 OK\n".getBytes());
+                                    output.write("Content-Type: text/html; charset=UTF-8\n\n".getBytes());
+                				}else{
+                					System.out.println("account update fail");
+                				}
+            				}else{
+            					System.out.println("payment update fail");
             				}
-        				}
+            			}else{
+            				System.out.println("payment not found");
+            			}
         			}
         		}
+        	}else{
+        		System.out.println("json wrong");
         	}
         	if (success == false){
         		String errMsg = "HTTP/1.1 404 File Not Found\r\n" + "Content-Type: text/html\r\n"

@@ -13,7 +13,6 @@ public class ShopPanelScript : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		instance = this;
-		retryTimes = 0;
 		SocketEventHandle.getInstance ().startPayOrderResponse += startPayOrderCallback;
 		SocketEventHandle.getInstance ().paySuccessResponse += paySuccessCallback;
 
@@ -40,6 +39,7 @@ public class ShopPanelScript : MonoBehaviour {
 
 	public void pay(int num)
 	{
+		retryTimes = 0;
 		waitingPanel.SetActive (true);
 		CustomSocket.getInstance().sendMsg(new StartPayOrderRequest(num));
 
