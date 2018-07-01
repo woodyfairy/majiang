@@ -34,7 +34,9 @@ import com.dyz.gameserver.msg.processor.startgame.PrepareGameMSGProcessor;
 import com.dyz.gameserver.msg.processor.startpreparegame.StartPrepareGameMsgProcessor;
 import com.dyz.gameserver.msg.processor.ting.TingPaiMsgProcessor;
 //pay
-import com.dyz.gameserver.msg.processor.pay.*;
+import com.dyz.gameserver.msg.processor.pay.PayStartOrderMsgProcessor;
+import com.dyz.gameserver.msg.processor.pay.PaySaveTicketMsgProcessor;
+import com.dyz.gameserver.msg.processor.pay.PayPaySuccessMsgProcessor;
 
 
 /**
