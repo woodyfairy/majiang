@@ -8,7 +8,9 @@ import com.dyz.gameserver.msg.processor.common.INotAuthProcessor;
 import com.dyz.gameserver.msg.processor.common.MsgProcessor;
 import com.dyz.gameserver.msg.response.ErrorResponse;
 import com.dyz.gameserver.msg.response.pay.PaySuccessResponse;
+import com.dyz.myBatis.model.Account;
 import com.dyz.myBatis.model.Payment;
+import com.dyz.myBatis.services.AccountService;
 import com.dyz.myBatis.services.PaymentService;
 import com.dyz.persist.util.JsonUtilTool;
 
@@ -31,6 +33,8 @@ public class PayPaySuccessMsgProcessor extends MsgProcessor implements
 			if (payment != null) {
 				if (payment.getFinished() == true) {
 					Avatar avatar = gameSession.getRole(Avatar.class);
+					Account account = AccountService.getInstance().selectByUUid(avatar.getUuId());
+					avatar.avatarVO.getAccount().setRoomcard(account.getRoomcard());
 					gameSession.sendMsg(new PaySuccessResponse(1, avatar.avatarVO.getAccount().getRoomcard().toString()));
 				} else {
 					gameSession.sendMsg(new PaySuccessResponse(0, "订单未完成"));
