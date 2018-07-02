@@ -84,11 +84,12 @@ public class PlayerItemScript : MonoBehaviour {
 		//下载完成，保存图片到路径filePath
 		if (www != null) {
 			Texture2D texture2D = www.texture;
-			byte[] bytes = texture2D.EncodeToPNG ();
-
-			//将图片赋给场景上的Sprite
-			Sprite tempSp = Sprite.Create (texture2D, new Rect (0, 0, texture2D.width, texture2D.height), new Vector2 (0, 0));
-			headerIcon.sprite = tempSp;
+			if (texture2D) {
+				byte[] bytes = texture2D.EncodeToPNG ();
+				//将图片赋给场景上的Sprite
+				Sprite tempSp = Sprite.Create (texture2D, new Rect (0, 0, texture2D.width, texture2D.height), new Vector2 (0, 0));
+				headerIcon.sprite = tempSp;
+			}
 		} else {
 			MyDebug.Log ("没有加载到图片");
 		}

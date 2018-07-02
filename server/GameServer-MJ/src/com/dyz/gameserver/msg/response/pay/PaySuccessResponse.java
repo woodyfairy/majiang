@@ -14,7 +14,6 @@ public class PaySuccessResponse  extends ServerResponse{
     public PaySuccessResponse(int status,String obj) throws IOException {
         super(status,ConnectAPI.PAY_SUCCESS_RESPONSE);
         output.writeUTF(obj);
-    	System.out.println("roomCard:"+obj);
     	output.close();
         if(status > 0){
         	System.out.println("roomCard:"+obj);

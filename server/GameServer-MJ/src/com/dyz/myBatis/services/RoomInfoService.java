@@ -48,7 +48,12 @@ public class RoomInfoService {
 	        room.setShowtingpai(roomVO.getShowTingPai()?"1":"0");
 	    	//创建RoomInfo表
 	        int index = roomInfoMap.insertSelective(room);
+	        //System.out.println("index: " + index);
+	        //System.out.println("roomVO: " + roomVO);
+	        //System.out.println("roomId:" + roomVO.getRoomId());
+	        //这里应该是加入数据库后自动生成，需要配置支持
 	        roomVO.setId(room.getId());
+	        
 	        //创建表 gameaccountindex记录某个游戏记录中4个玩家对应的索引
 	        //GameAccountIndex gameAccountIndex;
 	        //gameAccountIndex.setAccountId(accountId);
