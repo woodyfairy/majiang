@@ -310,7 +310,7 @@ public class Avatar implements GameObj {
      * @param  
      * @return
      */
-    public boolean checkSelfGang(){
+    public boolean checkSelfGang(int tempPoint){
      	//system.out.println("杠了的牌==杠家id"+avatarVO.getAccount().getUuid()+"===="+resultRelation.get(2));
      	//system.out.println("碰了的牌==杠家id"+avatarVO.getAccount().getUuid()+"===="+resultRelation.get(1));
     	gangIndex.clear();//先清除缓存里面的可以杠的牌下标
@@ -320,9 +320,14 @@ public class Avatar implements GameObj {
 		for (int i= 0 ; i < avatarVO.getPaiArray()[0].length; i++) {
 			if (avatarVO.getPaiArray()[0][i] == 4 && avatarVO.getPaiArray()[1][i] != 2) {
 				//先判断所有4个的牌组中是否有未杠过的
-				gangIndex.add(i);
-				flag = true;
-				break;//多个杠的情况下默认杠下标最小的个牌	
+				if (tempPoint > 0 && avatarVO.isTing() && i != tempPoint){
+					//如果是新摸了牌（不是-1起手），而且已经听了，不是新摸的牌不能杠
+				}else{
+					//其他情况都可以杠
+					gangIndex.add(i);
+					flag = true;
+					break;//多个杠的情况下默认杠下标最小的个牌	
+				}
 			}
 		}
         return flag;

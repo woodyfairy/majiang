@@ -322,14 +322,28 @@ public class PlayCardsLogic {
             StringBuffer sb = new StringBuffer();
             //摸起来也要判断是否可以杠，胡
             avatar.putCardInList(tempPoint);
-            if (avatar.checkSelfGang()) {
-            	gangAvatar.add(avatar);
-            	sb.append("gang");
-            	for (int i : avatar.gangIndex) {
-            		sb.append(":"+i);
-				}
-            	sb.append(",");
-            	//avatar.gangIndex.clear();//9-18出牌了才清楚(在杠时断线重连后需要这里面的数据)
+            if (avatar.checkSelfGang(tempPoint)) {
+            	if (avatar.avatarVO.isTing()){
+            		//如果听了牌，杠之后需要还能继续听牌才能杠
+            		int preIndex = avatar.avatarVO.getPaiArray()[1][tempPoint];
+            		avatar.avatarVO.getPaiArray()[1][tempPoint] = 2;//假设杠
+            		//List<Integer> tingPais = new ArrayList<>();
+                	if(checkTing(avatar, false, null)){
+                		gangAvatar.add(avatar);
+                    	sb.append("gang");
+                    	sb.append(":"+tempPoint);//只能杠新摸的牌
+                    	sb.append(",");
+                	}
+                	avatar.avatarVO.getPaiArray()[1][tempPoint] = preIndex;//回复
+            	}else{
+            		gangAvatar.add(avatar);
+                	sb.append("gang");
+                	for (int i : avatar.gangIndex) {
+                		sb.append(":"+i);
+    				}
+                	sb.append(",");
+                	//avatar.gangIndex.clear();//9-18出牌了才清楚(在杠时断线重连后需要这里面的数据)
+            	}
             }
             
             boolean isHu = false;
@@ -350,7 +364,7 @@ public class PlayCardsLogic {
             if(!avatar.avatarVO.isTing())
             {
             	List<Integer> tingPais = new ArrayList<>();
-            	if((!isHu) && checkTing(avatar, tingPais))
+            	if((!isHu) && checkTing(avatar, true, tingPais))
             	{
             		//TODO:
             		tingAvatar.add(avatar);
@@ -423,14 +437,28 @@ public class PlayCardsLogic {
             StringBuffer sb = new StringBuffer();
             //摸起来也要判断是否可以杠，胡
             avatar.putCardInList(tempPoint);
-            if (avatar.checkSelfGang()) {
-            	gangAvatar.add(avatar);
-            	sb.append("gang");
-            	for (int i : avatar.gangIndex) {
-            		sb.append(":"+i);
-				}
-            	sb.append(",");
-            	//avatar.gangIndex.clear();
+            if (avatar.checkSelfGang(tempPoint)) {
+            	if (avatar.avatarVO.isTing()){
+            		//如果听了牌，杠之后需要还能继续听牌才能杠
+            		int preIndex = avatar.avatarVO.getPaiArray()[1][tempPoint];
+            		avatar.avatarVO.getPaiArray()[1][tempPoint] = 2;//假设杠
+            		//List<Integer> tingPais = new ArrayList<>();
+                	if(checkTing(avatar, false, null)){
+                		gangAvatar.add(avatar);
+                    	sb.append("gang");
+                    	sb.append(":"+tempPoint);//只能杠新摸的牌
+                    	sb.append(",");
+                	}
+                	avatar.avatarVO.getPaiArray()[1][tempPoint] = preIndex;//回复
+            	}else{
+            		gangAvatar.add(avatar);
+                	sb.append("gang");
+                	for (int i : avatar.gangIndex) {
+                		sb.append(":"+i);
+    				}
+                	sb.append(",");
+                	//avatar.gangIndex.clear();
+            	}
             }
             
             boolean isHu = false;
@@ -444,7 +472,7 @@ public class PlayCardsLogic {
             if(!avatar.avatarVO.isTing())
             {
             	List<Integer> tingPais = new ArrayList<>();
-            	if((!isHu) && checkTing(avatar, tingPais))
+            	if((!isHu) && checkTing(avatar, true, tingPais))
             	{
             		//TODO:
             		tingAvatar.add(avatar);
@@ -851,7 +879,7 @@ public class PlayCardsLogic {
     				 
     				 StringBuffer sb = new StringBuffer();
     				 List<Integer> tingPais = new ArrayList<>();
-					if(checkTing(avatar, tingPais))
+					if(checkTing(avatar, true, tingPais))
 					{
 						//TODO:
 						tingAvatar.add(avatar);
@@ -1550,7 +1578,7 @@ public class PlayCardsLogic {
     	   bankerAvatar.huAvatarDetailInfo.add(listCard.get(nextCardindex)+":"+0);
        }
        //检测庄家起手有没的杠  长沙麻将叫做大四喜
-       if(bankerAvatar.checkSelfGang()){
+       if(bankerAvatar.checkSelfGang(-1)){
     	   gangAvatar.add(bankerAvatar);
     	   //发送消息
 		   StringBuffer sb = new StringBuffer();
@@ -1789,10 +1817,13 @@ public class PlayCardsLogic {
      *  1:  对应花色的状态 1:peng 2:gang
      *  碰 1  杠2  胡3  吃4
      */
-    private boolean checkTing(Avatar avatar, List<Integer> tingList)
+    //outCard:出一张牌后是否能听，false时不出牌（已经减去了）是否能听； tingList：出哪张牌能听
+    private boolean checkTing(Avatar avatar, boolean outCard, List<Integer> tingList)
     {
     	int[][] rawPai = avatar.getPaiArray();
-    	tingList.clear();
+    	if (outCard){
+    		tingList.clear();
+    	}
     	
     	if(avatar.MathedPassedArray()) return false;
     	
@@ -1803,14 +1834,20 @@ public class PlayCardsLogic {
     		
     		if(rawPai[0][i] != 0)
     		{
-    			rawPai[0][i] -= 1;
+    			if (outCard){
+    				rawPai[0][i] -= 1;
+    			}
     			for(int j = 0; j < rawPai[0].length; j++)
     			{
     				if(rawPai[0][j] < 4) {
     					rawPai[0][j] += 1;
     					if(checkHu(avatar, j))
         				{
-        					tingList.add(i);
+    						if (outCard){
+    							tingList.add(i);
+    						}else{
+    							return true;//检查的为不出牌，则直接返回
+    						}
         					rawPai[0][j] -= 1;
         					break;
         				}
@@ -1818,11 +1855,16 @@ public class PlayCardsLogic {
     				}
     				
     			}
-    			rawPai[0][i] += 1;
-    			
+    			if (outCard){
+    				rawPai[0][i] += 1;
+    			}
     		}
     	}
     	avatar.avatarVO.setPaiArray(rawPai);
+    	
+    	if (!outCard){
+    		return false;//检查的为不出牌，则直接返回
+		}
     	
     	for(int i = 0; i < tingList.size(); i++)
     	{
