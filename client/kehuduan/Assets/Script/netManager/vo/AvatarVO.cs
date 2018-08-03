@@ -10,6 +10,7 @@ namespace AssemblyCSharp
 		public Account account;
 
 		public bool ting;
+        public int yanPoint;//眼牌
 		//public int cardIndex; 
 		public bool isOnLine;
 		public bool isReady;

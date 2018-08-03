@@ -12,12 +12,12 @@ namespace AssemblyCSharp
         public const string UPDATE_INFO_JSON_URL = "http://localhost:8080/download/update.xml";
 
         //////////public const string chatSocketUrl = "39.108.136.192";
-		public const string chatSocketUrl = "192.168.1.106";
+		public const string chatSocketUrl = "192.168.1.104";
         //public const string chatSocketUrl = "39.104.112.20";
 
 		//////////public const string socketUrl = "118.178.20.36";
 		//////////public const string socketUrl = "39.108.136.192";
-       	public const string socketUrl = "192.168.1.106";
+       	public const string socketUrl = "192.168.1.104";
         //public const string socketUrl = "39.104.112.20";
 
 		public const string PIC_PATH = "http://www.weipagame.com:8080/";

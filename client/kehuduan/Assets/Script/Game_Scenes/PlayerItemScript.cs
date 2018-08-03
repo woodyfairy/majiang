@@ -9,6 +9,7 @@ public class PlayerItemScript : MonoBehaviour {
 	public Image headerIcon;
 	public Image bankerImg;
 	public Text nameText;
+    public Button inviteBtn;
 	public Image readyImg;
 	public Text scoreText;
 	public string dir;
@@ -27,10 +28,22 @@ public class PlayerItemScript : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		//bankerImg.enabled = false;
-		//readyImg.enabled = false;
-//	    scoreText.text = 1000 + "";
+        //bankerImg.enabled = false;
+        //readyImg.enabled = false;
+        //	    scoreText.text = 1000 + "";
 	}
+    private void Awake()
+    {
+        if (inviteBtn != null)
+        {
+            inviteBtn.onClick.AddListener(clickInvite);
+        }
+    }
+    void clickInvite()
+    {
+        //邀请好友
+        GlobalDataScript.getInstance().wechatOperate.ShareGames(cn.sharesdk.unity3d.PlatformType.WeChat);
+    }
 	
 	// Update is called once per frame
 	void Update () {
@@ -160,8 +173,18 @@ public class PlayerItemScript : MonoBehaviour {
 		HuFlag.SetActive (false);
 	}
 
-    public void setTingDisplay(){
+    public void setTingDisplay(int yanPoint){
         tingIcon.gameObject.SetActive(true);
+        Transform yanpai = tingIcon.transform.Find("TopAndBottomCard");
+        if (yanPoint >= 0)
+        {
+            yanpai.gameObject.SetActive(true);
+            yanpai.GetComponent<TopAndBottomCardScript>().setPoint(yanPoint);
+        }
+        else
+        {
+            yanpai.gameObject.SetActive(false);
+        }
     }
 
     public void setTingHide(){

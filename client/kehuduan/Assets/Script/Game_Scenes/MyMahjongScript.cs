@@ -368,26 +368,26 @@ public class MyMahjongScript : MonoBehaviour
 			{
 				switch (getDirection(i)) {
 					case DirectionEnum.Bottom:
-						playerItems [0].GetComponent<PlayerItemScript> ().setTingDisplay();
+						playerItems [0].GetComponent<PlayerItemScript> ().setTingDisplay(avatarList[i].yanPoint);
 						break;
 					case DirectionEnum.Right:
 						if (GlobalDataScript.roomVo.showTingPai)
 						{
-							playerItems [1].GetComponent<PlayerItemScript> ().setTingDisplay ();
+							playerItems [1].GetComponent<PlayerItemScript> ().setTingDisplay (avatarList[i].yanPoint);
 						}
 			    
 						break;
 					case DirectionEnum.Top:
 						if (GlobalDataScript.roomVo.showTingPai)
 						{
-							playerItems[2].GetComponent<PlayerItemScript>().setTingDisplay();
+							playerItems[2].GetComponent<PlayerItemScript>().setTingDisplay(avatarList[i].yanPoint);
 						}
 
 						break;
 					case DirectionEnum.Left:
 						if (GlobalDataScript.roomVo.showTingPai)
 						{
-							playerItems[3].GetComponent<PlayerItemScript>().setTingDisplay();
+							playerItems[3].GetComponent<PlayerItemScript>().setTingDisplay(avatarList[i].yanPoint);
 						}
 
 						break;
@@ -708,7 +708,8 @@ public class MyMahjongScript : MonoBehaviour
 		for (int i = 0; i < playerItems.Count; i++) {
 			playerItems [i].readyImg.enabled=false;
 		}
-	}
+        playerItems[0].inviteBtn.gameObject.SetActive(false);
+    }
 	private void setAllPlayerHuImgVisbleToFalse(){
 		for (int i = 0; i < playerItems.Count; i++) {
 			playerItems [i].setHuFlagHidde ();
@@ -2200,39 +2201,41 @@ public class MyMahjongScript : MonoBehaviour
         GlobalDataScript.isDrag = true;
 
 	    int id = (int) JsonMapper.ToObject(response.message)["avatarId"];
+        int curPoint = (int)JsonMapper.ToObject(response.message)["curPoint"];
 
-	    for (int i = 0; i < avatarList.Count; i++)
+        for (int i = 0; i < avatarList.Count; i++)
 	    {
 		    if (avatarList[i].account.uuid == id)
 		    {
 			    avatarList[i].ting = true;
-		    }
+                avatarList[i].yanPoint = curPoint;//眼牌
+            }
 	    }
 	    
 	    int avarIndex = getIndex (id);
 	    
 	    switch (getDirection(avarIndex)) {
 		    case DirectionEnum.Bottom:
-			    playerItems [0].GetComponent<PlayerItemScript> ().setTingDisplay();
+			    playerItems [0].GetComponent<PlayerItemScript> ().setTingDisplay(curPoint);
 			    break;
 		    case DirectionEnum.Right:
 			    if (GlobalDataScript.roomVo.showTingPai)
 			    {
-				    playerItems [1].GetComponent<PlayerItemScript> ().setTingDisplay ();
+				    playerItems [1].GetComponent<PlayerItemScript> ().setTingDisplay (curPoint);
 			    }
 			    
 			    break;
 		    case DirectionEnum.Top:
 			    if (GlobalDataScript.roomVo.showTingPai)
 			    {
-				    playerItems[2].GetComponent<PlayerItemScript>().setTingDisplay();
+				    playerItems[2].GetComponent<PlayerItemScript>().setTingDisplay(curPoint);
 			    }
 
 			    break;
 		    case DirectionEnum.Left:
 			    if (GlobalDataScript.roomVo.showTingPai)
 			    {
-				    playerItems[3].GetComponent<PlayerItemScript>().setTingDisplay();
+				    playerItems[3].GetComponent<PlayerItemScript>().setTingDisplay(curPoint);
 			    }
 
 			    break;
@@ -3041,7 +3044,8 @@ public class MyMahjongScript : MonoBehaviour
 	/*显示自己准备*/
 	private void markselfReadyGame(){
 		playerItems [0].readyImg.transform.gameObject.SetActive (true);
-	}
+        playerItems[0].inviteBtn.gameObject.SetActive(true);
+    }
 
 	/**
     *准备游戏

@@ -124,7 +124,7 @@ public class LoginSystemScript : MonoBehaviour {
 			if (GlobalDataScript.gamePlayPanel != null) {
 				GlobalDataScript.gamePlayPanel.GetComponent<MyMahjongScript> ().exitOrDissoliveRoom ();
 			}
-
+            //Debug.Log("login:" + response.message);
 			GlobalDataScript.loginResponseData = JsonMapper.ToObject<AvatarVO> (response.message);
 			ChatSocket.getInstance ().sendMsg (new LoginChatRequest(GlobalDataScript.loginResponseData.account.uuid));
 			panelCreateDialog = Instantiate (Resources.Load("Prefab/Panel_Home")) as GameObject;
