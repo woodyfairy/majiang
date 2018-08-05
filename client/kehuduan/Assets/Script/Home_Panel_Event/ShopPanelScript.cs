@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using AssemblyCSharp;
 using LitJson;
 
@@ -10,14 +11,31 @@ public class ShopPanelScript : MonoBehaviour {
 	int retryTimes = 0;
 	string checkingOrder;
 
-	// Use this for initialization
-	void Start () {
+    //代理号
+    string daili = "JHWL-01";
+    Text daliTitle = null;
+    Button CopyWechat = null;
+
+    // Use this for initialization
+    void Start () {
 		instance = this;
 		SocketEventHandle.getInstance ().startPayOrderResponse += startPayOrderCallback;
 		SocketEventHandle.getInstance ().paySuccessResponse += paySuccessCallback;
 
 		waitingPanel = transform.Find ("Panel_wating").gameObject;
-	}
+
+        daliTitle = transform.Find("head_decro").Find("headDescro").GetComponent<Text>();
+        daliTitle.text = "游戏代理招募：" + daili;
+        CopyWechat = transform.Find("head_decro").Find("CopyWechat").GetComponent<Button>();
+        CopyWechat.onClick.AddListener(copyWechat);
+    }
+    void copyWechat()
+    {
+        TextEditor textEditor = new TextEditor();
+        textEditor.text = daili;
+        textEditor.OnFocus();
+        textEditor.Copy();
+    }
 	private void removeListener(){
 		instance = null;
 		SocketEventHandle.getInstance ().startPayOrderResponse -= startPayOrderCallback;
