@@ -124,6 +124,9 @@ public class AvatarVO {
     	isTing = ting;
     	yanPoint = paiYan;
     }
+    public int getYanPoint() {
+        return yanPoint;
+    }
     
     public boolean getIsOnLine() {
         return isOnLine;
