@@ -2415,16 +2415,26 @@ public class PlayCardsLogic {
      * 第一局结束扣房卡
      */
     public void deductRoomCard(){
-    	int currentCard = 0;
-    	if(roomVO.getRoundNumber() == 4){
-    		currentCard = -1;
+    	int currentCard = -roomVO.getRoundNumber();
+    	if(roomVO.getRoundNumber() == 16){
+    		currentCard = -12;
     	}
-    	else{
-    		currentCard = 0 - roomVO.getRoundNumber()/4;
+    	
+    	if(roomVO.getIsAA()){
+    		currentCard = currentCard/roomVO.getTotalPlayers();
+    		//System.out.println("card:" + currentCard);
+    		for(int i = 0; i < playerList.size(); i ++){
+    			Avatar player = playerList.get(i);
+    			player.updateRoomCard(currentCard);
+            	int roomCard = player.avatarVO.getAccount().getRoomcard();
+            	//System.out.println("player " + i + " card: " + roomCard);
+            	player.getSession().sendMsg(new RoomCardChangerResponse(1,roomCard));
+    		}
+    	}else{
+    		Avatar zhuangAvatar = playerList.get(0);
+        	zhuangAvatar.updateRoomCard(currentCard);//开始游戏，减去房主的房卡,同时更新缓存里面对象的房卡(已经在此方法中修改)
+        	int roomCard = zhuangAvatar.avatarVO.getAccount().getRoomcard();
+        	zhuangAvatar.getSession().sendMsg(new RoomCardChangerResponse(1,roomCard));
     	}
-    	Avatar zhuangAvatar = playerList.get(0);
-    	zhuangAvatar.updateRoomCard(currentCard);//开始游戏，减去房主的房卡,同时更新缓存里面对象的房卡(已经在此方法中修改)
-    	int roomCard = zhuangAvatar.avatarVO.getAccount().getRoomcard();
-    	zhuangAvatar.getSession().sendMsg(new RoomCardChangerResponse(1,roomCard));
     }
 }
