@@ -24,6 +24,10 @@ public class RoomVO {
      * 房间的使用总次数
      */
     private int roundNumber;
+    //是否aa支付
+    private boolean isAA;
+    
+    
     /**
      * 房间当前轮数
      */
@@ -162,6 +166,13 @@ public class RoomVO {
         this.roundNumber = roundNumber;
     }
     
+    public boolean getIsAA(){
+    	return isAA;
+    }
+    public void setIsAA(boolean AA){
+    	this.isAA = AA;
+    }
+    
     public int getCurrentRound() {
 		return currentRound;
 	}
@@ -248,6 +259,7 @@ public class RoomVO {
     	result.totalPlayers = totalPlayers;
     	result.roomId = roomId;
         result.roundNumber = roundNumber;
+        result.isAA = isAA;
         result.currentRound = currentRound;
         result.hong = hong;
         result.roomType = roomType;

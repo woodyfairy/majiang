@@ -26,14 +26,23 @@ public class CreateRoomMsgProcssor extends MsgProcessor implements
     @Override
     public void process(GameSession gameSession, ClientRequest request) throws Exception {
         String message = request.getString();
+        //System.out.println("message:" + message);
         RoomVO roomVO = (RoomVO) JsonUtilTool.fromJson(message, RoomVO.class);
+        //System.out.println("is AA:" + roomVO.getIsAA());
         if(gameSession.isLogin()) {
             Avatar avatar = gameSession.getRole(Avatar.class);
            /*//二期优化注释 if (avatar == null) {
                 //system.out.println("用户是空的，不能创建房间");
             }else{*/
             	AvatarVO avatarVo = avatar.avatarVO;
-                if(avatarVo.getAccount().getRoomcard() >= roomVO.getRoundNumber()/4) {
+            	int needCard = roomVO.getRoundNumber();
+            	if(roomVO.getRoundNumber() == 16){
+            		needCard = 12;
+            	}
+            	if(roomVO.getIsAA()){
+            		needCard = needCard/roomVO.getTotalPlayers();
+            	}
+                if(avatarVo.getAccount().getRoomcard() >= needCard) {
                     if(avatarVo.getRoomId() == 0) {
                         RoomManager.getInstance().createRoom(avatar,roomVO);
                         avatar.avatarVO.setRoomId(roomVO.getRoomId());

@@ -15,6 +15,7 @@ import com.dyz.gameserver.msg.processor.common.MsgProcessor;
 import com.dyz.gameserver.msg.response.ErrorResponse;
 import com.dyz.gameserver.msg.response.joinroom.JoinRoomResponse;
 import com.dyz.persist.util.GlobalUtil;
+import com.dyz.gameserver.pojo.RoomVO;
 
 import net.sf.json.JSONObject;
 
@@ -47,6 +48,21 @@ public class JoinRoomMsgProcessor extends MsgProcessor implements
 						roomLogic.returnBackAction(avatar);
 						return;
 					}
+					
+					RoomVO roomVO = roomLogic.getRoomVO();
+					if (roomVO.getIsAA()){
+						int needCard = roomVO.getRoundNumber();
+		            	if(roomVO.getRoundNumber() == 16){
+		            		needCard = 12;
+		            	}
+		            	needCard = needCard/roomVO.getTotalPlayers();
+		            	if(avatar.avatarVO.getAccount().getRoomcard() < needCard){
+		            		//system.out.println("房间卡不足");
+		                    gameSession.sendMsg(new ErrorResponse(ErrorCode.Error_000014));
+		                    return;
+		            	}
+					}
+					
 					//roomLogic.intoRoom(avatar);
 					boolean joinResult = roomLogic.intoRoom(avatar);
 					if(joinResult) {
