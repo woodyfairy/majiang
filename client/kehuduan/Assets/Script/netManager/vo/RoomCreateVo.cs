@@ -22,6 +22,8 @@ namespace AssemblyCSharp
         public bool threefornext;
         public bool showTingPai;
         public int cardNumber;
+        //支付
+        public bool isAA;
 		public RoomCreateVo()
 		{
 

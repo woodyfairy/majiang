@@ -27,6 +27,7 @@ public class CrateRoomSettingScript : MonoBehaviour {
 	public List<Toggle> changshaZhuama;//长沙麻将抓码个数
 	public List<Toggle> huashuixiayu;//划水麻将下鱼条数
 
+    public List<Toggle> zhuanzhuanZhifu;//转转支付：房主、AA
 
     public List<Toggle> GamePlayerNumbers;// player number
     public List<Toggle> GameRules;
@@ -104,6 +105,7 @@ public class CrateRoomSettingScript : MonoBehaviour {
 		bool hasHong=false;//红中赖子
         bool isSevenDoube =true;//七小对
         int playerNumber = 4;
+        bool isAA=true;//AA支付
 
         bool save20 = false;
         bool threeForNext = false;
@@ -123,6 +125,23 @@ public class CrateRoomSettingScript : MonoBehaviour {
 				break;
 			}
 		}
+        //支付
+        for (int i = 0; i < zhuanzhuanZhifu.Count; i++)
+        {
+            Toggle item = zhuanzhuanZhifu[i];
+            if (item.isOn)
+            {
+                if (i == 0)
+                {
+                    isAA = false;
+                }
+                else if (i == 1)
+                {
+                    isAA = true;
+                }
+                break;
+            }
+        }
 
         for (int i = 0; i < GamePlayerNumbers.Count; i++){
             Toggle item = GamePlayerNumbers[i];
@@ -172,15 +191,26 @@ public class CrateRoomSettingScript : MonoBehaviour {
         sendVo.totalPlayers = playerNumber; // 玩家数目
 		sendVo.ma = maCount;
 		sendVo.roundNumber = roundNumber;
-		sendVo.ziMo = isZimo?1:0;
+        sendVo.isAA = isAA;
+        sendVo.ziMo = isZimo?1:0;
         sendVo.hong = false;
 		sendVo.sevenDouble = isSevenDoube;
 		sendVo.roomType = GameConfig.GAME_TYPE_ZHUANZHUAN;
         sendVo.shengyu20 = save20;
         sendVo.threefornext = threeForNext;
         sendVo.showTingPai = showTingPai;
+        //Debug.Log("isAA:" + AA);
 		string sendmsgstr = JsonMapper.ToJson (sendVo);
-		if (GlobalDataScript.loginResponseData.account.roomcard > 0) {
+        int needCard = roundNumber;
+        if (roundNumber == 16)
+        {
+            needCard = 12;
+        }
+        if (isAA)
+        {
+            needCard = needCard / playerNumber;
+        }
+		if (GlobalDataScript.loginResponseData.account.roomcard >= needCard) {
 			CustomSocket.getInstance ().sendMsg (new CreateRoomRequest (sendmsgstr));
 		} else {
 			TipsManagerScript.getInstance ().setTips ("你的房卡数量不足，不能创建房间");
