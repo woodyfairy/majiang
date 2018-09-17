@@ -39,7 +39,7 @@ public class WxPaySDK {
             public void onPayEnd(PayResult payResult, PayOrder order, MobPayAPI api) {
                 // TODO 处理支付的结果，成功或失败可以在payResult中获取
                 Log.v("onPayEnd", "payResult: " + payResult);
-                if (payResult == PayResult.PAYRESULT_OK){
+                if (payResult.getPayCode() == PayResult.PAYCODE_OK){
                     UnityPlayer.UnitySendMessage("PaySdk","onPaySuccess", order.getOrderNo());
                 }else{
                     UnityPlayer.UnitySendMessage("PaySdk","onPayFail", order.getOrderNo());
