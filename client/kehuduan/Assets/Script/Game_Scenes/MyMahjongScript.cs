@@ -148,11 +148,12 @@ public class MyMahjongScript : MonoBehaviour
 
 	void Start()
 	{
-		randShowTime ();
+        randShowTime ();
 		timeFlag = true;
 		SoundCtrl.getInstance ().stopBGM ();
-		//===========================================================================================
-		norHu = new NormalHuScript();
+        SoundCtrl.getInstance().playBGM(1);
+        //===========================================================================================
+        norHu = new NormalHuScript();
 		naiziHu = new NaiziHuScript ();
 		gameTool = new GameToolScript ();
 		versionText.text = "V" + Application.version;
@@ -2195,7 +2196,6 @@ public class MyMahjongScript : MonoBehaviour
     }
 
     private void tingpaiCallback(ClientResponse response){
-        
         btnActionScript.cleanBtnShow();
        
         GlobalDataScript.isDrag = true;
@@ -2217,28 +2217,29 @@ public class MyMahjongScript : MonoBehaviour
 	    switch (getDirection(avarIndex)) {
 		    case DirectionEnum.Bottom:
 			    playerItems [0].GetComponent<PlayerItemScript> ().setTingDisplay(curPoint);
-			    break;
+                SoundCtrl.getInstance().playSoundByAction("ting", avatarList[0].account.sex);
+                break;
 		    case DirectionEnum.Right:
 			    if (GlobalDataScript.roomVo.showTingPai)
 			    {
 				    playerItems [1].GetComponent<PlayerItemScript> ().setTingDisplay (curPoint);
 			    }
-			    
-			    break;
+                SoundCtrl.getInstance().playSoundByAction("ting", avatarList[1].account.sex);
+                break;
 		    case DirectionEnum.Top:
 			    if (GlobalDataScript.roomVo.showTingPai)
 			    {
 				    playerItems[2].GetComponent<PlayerItemScript>().setTingDisplay(curPoint);
 			    }
-
-			    break;
+                SoundCtrl.getInstance().playSoundByAction("ting", avatarList[2].account.sex);
+                break;
 		    case DirectionEnum.Left:
 			    if (GlobalDataScript.roomVo.showTingPai)
 			    {
 				    playerItems[3].GetComponent<PlayerItemScript>().setTingDisplay(curPoint);
 			    }
-
-			    break;
+                SoundCtrl.getInstance().playSoundByAction("ting", avatarList[3].account.sex);
+                break;
 
 	    }
 	    
@@ -2314,7 +2315,7 @@ public class MyMahjongScript : MonoBehaviour
 
 
 		if (GlobalDataScript.hupaiResponseVo.type == "0") {
-			SoundCtrl.getInstance ().playSoundByAction ("hu", GlobalDataScript.loginResponseData.account.sex);
+			//SoundCtrl.getInstance ().playSoundByAction ("hu", GlobalDataScript.loginResponseData.account.sex);
 			effectType = "hu";
 			pengGangHuEffectCtrl ();
 			for (int i = 0; i < GlobalDataScript.hupaiResponseVo.avatarList.Count; i++) {
@@ -2426,6 +2427,7 @@ public class MyMahjongScript : MonoBehaviour
 
 
 	private void openGameOverPanelSignal(){//单局结算
+        SoundCtrl.getInstance().playSoundEffect("gameOver");
 		liujuEffectGame.SetActive (false);
 		setAllPlayerHuImgVisbleToFalse ();
 		if (zhuamaPanel != null) {
@@ -2532,7 +2534,7 @@ public class MyMahjongScript : MonoBehaviour
 			} else {
 				exitOrDissoliveRoom ();
 			}
-
+            SoundCtrl.getInstance().playSoundEffect("out");
 		} else {
 			TipsManagerScript.getInstance ().setTips ("退出房间失败：" + responseMsg.error);
 		}
@@ -2613,7 +2615,7 @@ public class MyMahjongScript : MonoBehaviour
 		clean ();
 		removeListener ();
 
-		SoundCtrl.getInstance ().playBGM ();
+		SoundCtrl.getInstance ().playBGM (0);
 		if (GlobalDataScript.homePanel != null) {
 			GlobalDataScript.homePanel.SetActive (true);
 			GlobalDataScript.homePanel.transform.SetSiblingIndex (1);
@@ -2635,7 +2637,7 @@ public class MyMahjongScript : MonoBehaviour
 	}
 
 	public void gameReadyNotice(ClientResponse response){
-
+        SoundCtrl.getInstance().playSoundEffect("enter");
 		//===============================================
 		JsonData json = JsonMapper.ToObject(response.message);
 		int avatarIndex = Int32.Parse(json["avatarIndex"].ToString());

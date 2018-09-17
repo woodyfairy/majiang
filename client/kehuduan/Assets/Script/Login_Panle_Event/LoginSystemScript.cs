@@ -113,7 +113,7 @@ public class LoginSystemScript : MonoBehaviour {
 			watingPanel.SetActive(false);
 		}
 
-		SoundCtrl.getInstance ().playBGM ();
+		SoundCtrl.getInstance ().playBGM (0);
 		if (response.status == 1) {
 			if (GlobalDataScript.homePanel != null) {
 				GlobalDataScript.homePanel.GetComponent<HomePanelScript> ().removeListener ();

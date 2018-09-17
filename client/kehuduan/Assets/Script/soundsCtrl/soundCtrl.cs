@@ -12,14 +12,17 @@ public class SoundCtrl  {
 
 	private static SoundCtrl _instance;
 
-	private static AudioSource audioS; 
+	private static AudioSource audioS;
+    private static AudioSource audioBGM;
 
-	public static SoundCtrl getInstance(){
+    public static SoundCtrl getInstance(){
 		if (_instance == null) {
 			_instance = new SoundCtrl ();
 			audioS = GameObject.Find ("MyAudio").GetComponent<AudioSource> ();
-            audioS.volume = PlayerPrefs.GetFloat("audioEffect", 1);
-		}
+            audioS.volume = PlayerPrefs.GetFloat("audioYinXiao", 1);
+            audioBGM = GameObject.Find("BGMAudio").GetComponent<AudioSource>();
+            audioBGM.volume = PlayerPrefs.GetFloat("audioEffect", 1);
+        }
 
 		return _instance;
 	}
@@ -28,8 +31,12 @@ public class SoundCtrl  {
     {
         audioS.volume = vol;
     }
+    public void ChangeBGMVolume(float vol)
+    {
+        audioBGM.volume = vol;
+    }
 
-	public void playSound(int cardPoint,int sex){
+    public void playSound(int cardPoint,int sex){
 		if (GlobalDataScript.soundToggle) {
 			string path = "Sounds/";
 			if (sex == 1) {
@@ -69,30 +76,39 @@ public class SoundCtrl  {
 				soudHash.Add (path,temp);
 			}
 			audioS.clip = temp;
-			audioS.Play ();
+            audioS.loop = false;
+            audioS.Play ();
 		}
 	}
 
-	public void playBGM(){
+	public void playBGM(int type){
 		string path = "Sounds/mjBGM";
+        if (type == 0)
+        {
+            path = "Sounds/mjBGM";
+        }
+        else if (type == 1)
+        {
+            path = "Sounds/mjBGM_inGame";
+        }
 		AudioClip temp = (AudioClip)soudHash[path];
 		if(temp == null){
 			temp = GameObject.Instantiate(Resources.Load (path)) as AudioClip;
 			soudHash.Add (path,temp);
 		}
-		audioS.clip = temp;
-		audioS.loop = true;
-		audioS.Play ();
+        audioBGM.clip = temp;
+        audioBGM.loop = true;
+        audioBGM.Play ();
 		if (GlobalDataScript.soundToggle) {
-			audioS.mute = false;
+            audioBGM.mute = false;
 		} else {
-			audioS.mute = true;
+            audioBGM.mute = true;
 		}
 	}
 
 	public void stopBGM(){
-		audioS.loop = false;
-		audioS.Stop ();
+        audioBGM.loop = false;
+        audioBGM.Stop ();
 	}
 
 	public void playSoundByAction(string str,int sex){
@@ -108,8 +124,25 @@ public class SoundCtrl  {
 			soudHash.Add (path,temp);
 		}
 		audioS.clip = temp;
-		audioS.Play ();
+        audioS.loop = false;
+        audioS.Play ();
 	}
 
-
+    public void playSoundEffect(string str)
+    {
+        if (GlobalDataScript.soundToggle)
+        {
+            string path = "Sounds/Effect/" + str;
+            Debug.Log("play:" + path);
+            AudioClip temp = (AudioClip)soudHash[path];
+            if (temp == null)
+            {
+                temp = GameObject.Instantiate(Resources.Load(path)) as AudioClip;
+                soudHash.Add(path, temp);
+            }
+            audioS.clip = temp;
+            audioS.loop = false;
+            audioS.Play();
+        }
+    }
 }

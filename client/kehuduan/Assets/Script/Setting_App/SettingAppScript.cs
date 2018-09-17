@@ -48,6 +48,7 @@ public class SettingAppScript : MonoBehaviour
             yinXiaoOff.SetActive(false);   
         }
         PlayerPrefs.SetFloat("audioYinXiao", val);
+        SoundCtrl.getInstance().ChangeVolume(val);
     }
 
     public void yingyuechanged(float val)
@@ -63,7 +64,7 @@ public class SettingAppScript : MonoBehaviour
             yingyueOff.SetActive(false);
         }
         PlayerPrefs.SetFloat("audioEffect", val);
-        SoundCtrl.getInstance().ChangeVolume(val);
+        SoundCtrl.getInstance().ChangeBGMVolume(val);
     }
 
     public void exit()
